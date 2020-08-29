@@ -22,25 +22,38 @@ const Spin = keyframes`
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(720deg);
   }
 `;
 
 const SpyGlass = styled("span")`
   display: inline-block;
-  animation: 1s ${Spin} linear infinite;
+  animation: ${props => props.frequency}s ${Spin} linear infinite;
+  border: 1px solid red;
 `;
 
-const NavBar = () => (
-  <Container>
-    <NavLink to="/">Adopt Me!</NavLink>
-    <NavLink to="/search-params">
-      {/* eslint-disable-next-line */}
-      <SpyGlass aria-label="search" role="img">
-        🔍
-      </SpyGlass>
-    </NavLink>
-  </Container>
-);
+class NavBar extends React.Component {
+  state = { frequency: 5 };
+  halfFrequency = () => this.setState({ frequency: this.state.frequency / 2 });
+
+  render() {
+    return (
+      <Container>
+        <NavLink to="/">Adopt Me!</NavLink>
+        <NavLink to="/search-params">
+          {/* eslint-disable-next-line */}
+          <SpyGlass
+            onClick={this.halfFrequency}
+            frequency={this.state.frequency}
+            aria-label="search"
+            role="img"
+          >
+            🔍
+          </SpyGlass>
+        </NavLink>
+      </Container>
+    );
+  }
+}
 
 export default NavBar;
